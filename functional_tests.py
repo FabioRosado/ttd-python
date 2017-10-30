@@ -1,5 +1,7 @@
 """Functional Test for To-Do List website """
 import unittest
+import time
+
 from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 
@@ -45,24 +47,26 @@ class NewVisitorTest(unittest.TestCase):
 
         # When she hits enter, the page updates, and now the page lists
         # "1: Buy peacock feathers" as an item in a to-do list"
-        inputbox.send_keys(Keys.ENTER)
-        self.check_for_row_in_list_table('1. Buy peacock feathers')
+        inputbox.send_keys(u'\ue007')
+        time.sleep(2)
+        self.check_for_row_in_list_table('1: Buy peacock feathers ')
 
         # There is still a text box inviting her to add another item. She
         # enters "User peacock feathers to make a fly"(She is very methodical)
         inputbox = self.browser.find_element_by_id(
             'id_new_item')
         inputbox.send_keys('Use peacock feathers to make a fly')
-        inputbox.send_keys(Keys.ENTER)
+        inputbox.send_keys(u'\ue007')
+        time.sleep(2)
 
         # The page updates again, an now shows both items on her list
-        self.check_for_row_in_list_table('1. Buy peacock feathers')
         self.check_for_row_in_list_table(
-            '2. Use peacock feathers to make a fly')
-
+            '2: Use peacock feathers to make a fly ')
+        self.check_for_row_in_list_table(
+            '1: Buy peacock feathers ')
         # Edith wonders whether the site will remember her lists. Then she sees
         # that the site has generated a unique url for her -- there is some
-        # explanatory text to that effect.
+        # explanatory text to that effect
         self.fail('Finish the test!')
 
     # She visits that URL - her to-do list is still there.
