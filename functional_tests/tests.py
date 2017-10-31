@@ -3,10 +3,10 @@ import unittest
 import time
 
 from selenium import webdriver
-from selenium.webdriver.common.keys import Keys
+from django.test import LiveServerTestCase
 
 
-class NewVisitorTest(unittest.TestCase):
+class NewVisitorTest(LiveServerTestCase):
     """Mocks user interaction"""
 
     def setUp(self):
@@ -27,8 +27,7 @@ class NewVisitorTest(unittest.TestCase):
         """Edith has heard about a cool new online to-do app. She goes
             to check out this homepage"""
         # pylint: disable=invalid-name
-        self.browser.get('http://localhost:8000')
-
+        self.browser.get(self.live_server_url)
         # She notices the page title and header mention to-do lists
         self.assertIn('To-Do', self.browser.title)
         header_text = self.browser.find_element_by_tag_name('h1').text
@@ -73,6 +72,3 @@ class NewVisitorTest(unittest.TestCase):
 
     # Satisfied, she goes back to sleep
 
-
-if __name__ == '__main__':
-    unittest.main()
