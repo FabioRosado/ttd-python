@@ -22,6 +22,31 @@ class NewVisitorTest(LiveServerTestCase):
 
         self.assertIn(row_text, [row.text for row in rows])
 
+    def test_layout_and_style(self):
+        """Test if layout and styling is working ok"""
+        # Edith goes to the home page
+        self.browser.get(self.live_server_url)
+        self.browser.set_window_size(1024, 768)
+
+        # She notices the input box is nicely centered
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertAlmostEqual(
+            inputbox.location['x'] + inputbox.size['width']/2,
+            512,
+            delta=5
+        )
+
+        # She starts a new list and sees the input is nicely
+        # centered there too
+        inputbox.send_keys('testing\n')
+        time.sleep(1)
+        inputbox = self.browser.find_element_by_id('id_new_item')
+        self.assertAlmostEqual(
+            inputbox.location['x'] + inputbox.size['width']/2,
+            512,
+            delta=5
+        )
+
     def test_start_todo_and_get_it_later(self):
         """Edith has heard about a cool new online to-do app. She goes
             to check out this homepage"""
@@ -57,7 +82,7 @@ class NewVisitorTest(LiveServerTestCase):
             'id_new_item')
         inputbox.send_keys('Use peacock feathers to make a fly')
         inputbox.send_keys(u'\ue007')
-        time.sleep(2)
+        time.sleep(1)
 
         # The page updates again, an now shows both items on her list
         self.check_for_row_in_list_table(
@@ -84,6 +109,8 @@ class NewVisitorTest(LiveServerTestCase):
         inputbox = self.browser.find_element_by_id('id_new_item')
         inputbox.send_keys('Buy milk')
         inputbox.send_keys(u'\ue007')
+        time.sleep(1)
+        self.check_for_row_in_list_table('1: Buy milk ')
 
         # Francis gets his own unique URL
         francis_list_url = self.browser.current_url
