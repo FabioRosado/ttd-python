@@ -2,10 +2,10 @@
 import time
 
 from selenium import webdriver
-from django.test import LiveServerTestCase
+from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 
 
-class NewVisitorTest(LiveServerTestCase):
+class NewVisitorTest(StaticLiveServerTestCase):
     """Mocks user interaction"""
 
     def setUp(self):

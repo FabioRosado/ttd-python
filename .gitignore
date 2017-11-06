@@ -3,3 +3,4 @@ __pycache__
 *pyc
 .functional_tests.py.swp
 *.py.swp
+.DS_Store
